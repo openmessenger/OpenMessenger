@@ -1,7 +1,7 @@
 import React from "react";
 import { A } from "hookrouter";
 const pic = require("./simplechat.png");
-export default function PublicNavBar() {
+const PublicNavBar = () => {
     return (
         <nav className="flex items-center justify-between flex-wrap bg-green-700">
             <div className="md:w-1/2 w-full lg:w-1/2">
@@ -21,4 +21,6 @@ export default function PublicNavBar() {
             </div>
         </nav>
     );
-}
+};
+
+export default PublicNavBar;
