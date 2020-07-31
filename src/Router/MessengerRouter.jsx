@@ -9,7 +9,7 @@ const routes = {
     "/chat/:id": ({ id }) => <ChatPage userId={id} />,
 };
 
-const AshaworkerRouter = () => {
+const MessengerRouter = () => {
     useRedirect("/", "/chat");
     const pages = useRoutes(routes);
 
@@ -23,4 +23,4 @@ const AshaworkerRouter = () => {
     );
 };
 
-export default AshaworkerRouter;
+export default MessengerRouter;

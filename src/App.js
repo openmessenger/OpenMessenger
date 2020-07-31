@@ -7,7 +7,7 @@ import MessengerRouter from "./Router/MessengerRouter";
 import { useAbortableEffect } from "./util/useAbortableEffect";
 import "./Notify.css";
 
-function App() {
+const App = () => {
     const dispatch = useDispatch();
     const state = useSelector((reduxState) => reduxState);
     const { currentUser } = state;
@@ -48,6 +48,6 @@ function App() {
     } else {
         return <PublicRouter />;
     }
-}
+};
 
 export default App;

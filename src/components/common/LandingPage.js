@@ -4,7 +4,7 @@ import GoogleLogin from "react-google-login";
 import { login, getCurrentUser } from "../../Redux/actions";
 import * as Notficiation from "../../util/Notifications";
 
-export default function LandingPage() {
+const LandingPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -53,4 +53,6 @@ export default function LandingPage() {
             />
         </div>
     );
-}
+};
+
+export default LandingPage;

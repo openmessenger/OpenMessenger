@@ -3,7 +3,7 @@ import { A, navigate } from "hookrouter";
 import { useSelector } from "react-redux";
 
 const pic = require("./simplechat.png");
-export default function MessengerNavbar() {
+const MessengerNavbar = () => {
     const state = useSelector((reduxState) => reduxState);
     const { currentUser } = state;
     const UserName = currentUser.data.data.name;
@@ -44,4 +44,6 @@ export default function MessengerNavbar() {
             </div>
         </nav>
     );
-}
+};
+
+export default MessengerNavbar;

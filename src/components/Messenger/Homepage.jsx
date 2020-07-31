@@ -4,7 +4,7 @@ import { SearchUser, allchats } from "../../Redux/actions";
 import { useDispatch } from "react-redux";
 import Loader from "../common/Loader";
 
-export default function Homepage() {
+const Homepage = () => {
     const [Data, setData] = useState([]);
     const [keyword, setkeyword] = useState("");
     const [Search, setSearch] = useState("");
@@ -133,4 +133,6 @@ export default function Homepage() {
             )}
         </div>
     );
-}
+};
+
+export default Homepage;
