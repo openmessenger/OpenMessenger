@@ -1,0 +1,103 @@
+.main-card {
+    background: white;
+    color: white;
+    width: 80%;
+    height: calc(100% - 32px);
+    margin: 16px auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 400px !important;
+}
+
+.chat-area {
+    flex-grow: 1;
+    overflow: auto;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+}
+.input-message {
+    padding: 8px 24px;
+    flex-grow: 1;
+    margin: 0px 8px 0px 0px;
+    border-radius: 24px;
+    border: none;
+    box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.input-message:focus {
+    outline: none;
+    box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.3),
+        0 6px 20px 0 rgba(0, 0, 0, 0.25);
+}
+.input-div {
+    height: 48px;
+    width: calc(100% - 32px);
+    margin: 16px;
+    display: flex;
+}
+
+.input-send {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    border: none;
+    box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.input-send:hover {
+    cursor: pointer;
+    box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.3),
+        0 6px 20px 0 rgba(0, 0, 0, 0.25);
+}
+.input-send svg {
+    fill: white;
+    margin: 11px 8px;
+}
+.chat-message-div {
+    display: flex;
+}
+
+.chat-message {
+    background-color: white;
+    margin: 8px 16px;
+    padding: 10px 15px;
+    animation-name: fadeIn;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 100ms;
+    box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.1),
+        0 6px 20px 0 rgba(0, 0, 0, 0.11);
+    color: black;
+    border-radius: 50px;
+    font-size: medium;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

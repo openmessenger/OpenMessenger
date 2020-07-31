@@ -1,0 +1,220 @@
+import React, { useEffect, useState } from "react";
+import "./chatpage.css";
+import { useDispatch, useSelector } from "react-redux";
+import { NewMessage, getmsgs } from "../../Redux/actions";
+import Loader from "../common/Loader";
+import socketIOClient from "socket.io-client";
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
+const config = { baseUrl: process.env.REACT_APP_BASE_URL };
+const Load = require("./Loader.gif");
+
+const ChatPage = ({ userId }) => {
+    const state = useSelector((reduxState) => reduxState);
+    const { currentUser } = state;
+    const User = currentUser.data;
+    const [Input, setInput] = useState("");
+    const dispatch = useDispatch();
+    const [Rece, setRece] = useState();
+    const [received, setreceived] = useState();
+    const [Error, seError] = useState(false);
+    const [Loading, setLoading] = useState(false);
+    const [Sending, setSending] = useState(false);
+    const [showEmojis, setShowEmojis] = useState(false);
+
+    const addEmoji = (e) => {
+        let emoji = e.native;
+        setInput(Input + emoji);
+    };
+    // const handleShowEmojis = (e) => {
+    //     setShowEmojis(true),
+    //         (e) => document.addEventListener("click", closeMenu(e));
+    // };
+
+    const handleEmojis = (e) => {
+        setShowEmojis(!showEmojis);
+    };
+
+    useEffect(() => {
+        let Mount = true;
+        window.scrollTo(0, 0);
+        const Socket = socketIOClient(config.baseUrl);
+        setLoading(true);
+        let Err = false;
+        let Res = [];
+        const starter = () => {
+            dispatch(getmsgs({ receiver: userId }))
+                .then((res) => {
+                    if (Mount && res && res.data !== undefined) {
+                        if (res.data.receiver !== undefined) {
+                            setreceived(res.data.Messages);
+                            Res = res.data.receiver;
+                            setRece(res.data.receiver);
+                            if (res.data.receiver.email === User.data.email) {
+                                seError(true);
+                                Err = true;
+                            }
+                        } else {
+                            seError(true);
+                            Err = true;
+                        }
+                        setLoading(false);
+                        setSending(false);
+                    }
+                })
+                .then(() => {
+                    if (Mount && !Err) {
+                        const msgbox = document.getElementById("message-box");
+                        msgbox.scrollTop = msgbox.scrollHeight;
+                    }
+                });
+        };
+        starter();
+
+        Socket.on("msgToClient", (message) => {
+            if (
+                (message.UserMail === User.data.email &&
+                    message.SenderId === Res.email) ||
+                (message.UserMail === Res.email &&
+                    message.SenderId === User.data.email)
+            ) {
+                starter();
+            }
+        });
+        return () => {
+            Mount = false;
+            Socket.close();
+        };
+    }, [dispatch, userId, User.data.email]);
+
+    const isNullOrWhiteSpace = (str) => {
+        return !str || str.length === 0 || /^\s*$/.test(str);
+    };
+
+    const sendMsg = () => {
+        if (!isNullOrWhiteSpace(Input)) {
+            setInput("");
+            setSending(true);
+            dispatch(NewMessage({ msg: Input, receiver: userId })).then(
+                (res) => {
+                    if (!Error) {
+                        const msgbox = document.getElementById("message-box");
+                        msgbox.scrollTop = msgbox.scrollHeight;
+                    }
+                    socketIOClient(config.baseUrl).emit("msgToServer", {
+                        UserMail: User.data.email,
+                        SenderId: Rece.email,
+                        data: Input,
+                    });
+                }
+            );
+        }
+    };
+
+    return (
+        <div className="items-center px-3">
+            {!Error ? (
+                <>
+                    {Loading && <Loader msg={"Loading chat..."} />}
+                    <div className={`${Loading ? "hidden" : ""}`}>
+                        <div className="main-card  mt-16 w-full md:w-1/2 lg:w-2/5">
+                            <div className="main-title flex py-3 px-4 bg-green-700 text-sm lg:text-lg font-bold">
+                                <span className="w-1/2 ">
+                                    {Rece && (
+                                        <p className="truncate">{Rece.name}</p>
+                                    )}
+                                    {Rece && (
+                                        <p className="truncate font-semibold text-xs lg:text-sm">
+                                            {Rece.email}
+                                        </p>
+                                    )}
+                                </span>
+                            </div>
+                            <div className="chat-area" id="message-box">
+                                {received &&
+                                    received.map((value, id) => {
+                                        return (
+                                            <div key={id + 1}>
+                                                {value.author ===
+                                                User.data.email ? (
+                                                    <div className="chat-message-div">
+                                                        <span
+                                                            style={{
+                                                                flexGrow: 1,
+                                                            }}></span>
+                                                        <div className="chat-message">
+                                                            {value.msg}
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="chat-message-div">
+                                                        <div className="chat-message">
+                                                            {value.msg}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                            </div>
+                            <div className="input-div flex flex-row" id="end">
+                                <input
+                                    className="input-message text-black w-5/6"
+                                    name="message"
+                                    type="text"
+                                    id="message"
+                                    placeholder="Enter your message here"
+                                    value={Input}
+                                    onChange={(e) => {
+                                        setInput(e.target.value);
+                                    }}
+                                    onKeyPress={(e) => {
+                                        if (13 === (e.keyCode || e.which)) {
+                                            if (!Sending) sendMsg();
+                                        }
+                                    }}
+                                />
+                                <button
+                                    className="input-send bg-green-700 mr-2 items-center text-center"
+                                    onClick={handleEmojis}>
+                                    {String.fromCodePoint(0x1f60a)}
+                                </button>
+                                <button
+                                    className="input-send bg-green-700 mr-2 items-center text-center"
+                                    onClick={sendMsg}
+                                    disabled={Sending}>
+                                    {!Sending ? (
+                                        <svg className="ml-3 h-6 w-6">
+                                            <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
+                                        </svg>
+                                    ) : (
+                                        <img
+                                            alt="Loader"
+                                            className="h-8 w-8 ml-2"
+                                            src={Load}></img>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+
+                        {showEmojis ? (
+                            <div className="m-0 m-auto text-center">
+                                <Picker
+                                    onSelect={(e) => addEmoji(e)}
+                                    emojiTooltip={true}
+                                    title="OpenMessenger"
+                                />
+                            </div>
+                        ) : null}
+                    </div>
+                </>
+            ) : (
+                <div className="text-2xl m-0 m-auto text-center text-red-600 ml-5 font-bold">
+                    Oops an error occured
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default ChatPage;

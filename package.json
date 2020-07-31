@@ -1,0 +1,61 @@
+{
+    "name": "openmessenger",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.5.0",
+        "@testing-library/user-event": "^7.2.1",
+        "axios": "^0.19.2",
+        "emoji-mart": "^3.0.0",
+        "gapi-script": "^1.0.2",
+        "hookrouter": "^1.2.3",
+        "pnotify": "^4.0.1",
+        "react": "^16.13.1",
+        "react-date-picker": "^8.0.1",
+        "react-dom": "^16.13.1",
+        "react-google-login": "^5.1.20",
+        "react-qr-code": "^1.0.2",
+        "react-qr-reader": "^2.2.1",
+        "react-redux": "^7.2.0",
+        "react-router-dom": "^5.1.2",
+        "react-scripts": "3.4.1",
+        "react-time-picker": "^4.0.1",
+        "redux": "^4.0.5",
+        "redux-thunk": "^2.3.0",
+        "socket.io-client": "^2.3.0",
+        "yup": "^0.28.3"
+    },
+    "scripts": {
+        "build:css": "postcss src/tailwind.css -o src/index.css",
+        "watch:css": "postcss src/tailwind.css -o src/index.css -w",
+        "start": "concurrently --kill-others \"npm run watch:css\" \"set PORT=8000 && react-scripts start\"",
+        "build": "npm run build:css && CI=false && react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "pretty": "prettier --write .",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "autoprefixer": "^9.7.6",
+        "bs-platform": "^7.2.2",
+        "concurrently": "^5.1.0",
+        "postcss-cli": "^7.1.0",
+        "prettier": "^2.0.5",
+        "tailwindcss": "^1.2.0"
+    }
+}
