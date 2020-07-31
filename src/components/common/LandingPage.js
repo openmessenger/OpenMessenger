@@ -27,7 +27,6 @@ export default function LandingPage() {
                         "login_access_token",
                         res.access_token
                     );
-                    console.log(res.access_token);
                     dispatch(getCurrentUser());
                 }
             })
