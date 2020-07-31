@@ -33,7 +33,7 @@ const MessengerNavbar = () => {
             <div className="text-right my-1  w-1/2">
                 <div className="mr-5">
                     <p className="text-white text-sm mt-2 font-semibold">
-                        Logged in as {UserName}
+                        {UserName}
                     </p>
                     <button
                         className="text-xs items-center lg:text-sm justify-center p-2 px-2 text-black bg-white rounded  hover:text-white hover:bg-black mt-1  cursor-pointer"
