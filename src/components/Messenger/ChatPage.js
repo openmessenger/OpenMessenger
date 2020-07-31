@@ -175,7 +175,7 @@ const ChatPage = ({ userId }) => {
                                     }}
                                 />
                                 <button
-                                    className="input-send bg-green-700 mr-2 items-center text-center"
+                                    className="input-send hidden md:block lg:block bg-green-700 mr-2 items-center text-center"
                                     onClick={handleEmojis}>
                                     {String.fromCodePoint(0x1f60a)}
                                 </button>
