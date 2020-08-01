@@ -8,7 +8,6 @@ import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
 const config = {
     baseUrl: process.env.REACT_APP_BASE_URL,
-    imageUploadURL: process.env.NAME,
 };
 const Load = require("./Loader.gif");
 
@@ -179,6 +178,7 @@ const ChatPage = ({ userId }) => {
                                                                     src={
                                                                         value.photo
                                                                     }
+                                                                    alt=""
                                                                 />
                                                             ) : (
                                                                 value.msg
@@ -201,6 +201,7 @@ const ChatPage = ({ userId }) => {
                                                                     src={
                                                                         value.photo
                                                                     }
+                                                                    alt=""
                                                                 />
                                                             ) : (
                                                                 value.msg
