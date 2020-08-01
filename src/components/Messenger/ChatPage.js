@@ -6,7 +6,10 @@ import Loader from "../common/Loader";
 import socketIOClient from "socket.io-client";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
-const config = { baseUrl: process.env.REACT_APP_BASE_URL };
+const config = {
+    baseUrl: process.env.REACT_APP_BASE_URL,
+    imageUploadURL: process.env.NAME,
+};
 const Load = require("./Loader.gif");
 
 const ChatPage = ({ userId }) => {
@@ -17,19 +20,39 @@ const ChatPage = ({ userId }) => {
     const dispatch = useDispatch();
     const [Rece, setRece] = useState();
     const [received, setreceived] = useState();
+    const [image, setImage] = useState("");
+    const [success, setSuccess] = useState(false);
     const [Error, seError] = useState(false);
     const [Loading, setLoading] = useState(false);
     const [Sending, setSending] = useState(false);
     const [showEmojis, setShowEmojis] = useState(false);
 
+    const uploadPic = () => {
+        if (success) {
+            const data = new FormData();
+            data.append("file", image);
+            data.append("upload_preset", "insta-clone");
+            data.append("cloud_name", "arihant2310");
+            fetch("	https://api.cloudinary.com/v1_1/arihant2310/image/upload", {
+                method: "post",
+                body: data,
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    sendMsg(data.url);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        } else {
+            sendMsg("");
+        }
+    };
+
     const addEmoji = (e) => {
         let emoji = e.native;
         setInput(Input + emoji);
     };
-    // const handleShowEmojis = (e) => {
-    //     setShowEmojis(true),
-    //         (e) => document.addEventListener("click", closeMenu(e));
-    // };
 
     const handleEmojis = (e) => {
         setShowEmojis(!showEmojis);
@@ -91,23 +114,23 @@ const ChatPage = ({ userId }) => {
         return !str || str.length === 0 || /^\s*$/.test(str);
     };
 
-    const sendMsg = () => {
+    const sendMsg = (photoLink) => {
         if (!isNullOrWhiteSpace(Input)) {
             setInput("");
             setSending(true);
-            dispatch(NewMessage({ msg: Input, receiver: userId })).then(
-                (res) => {
-                    if (!Error) {
-                        const msgbox = document.getElementById("message-box");
-                        msgbox.scrollTop = msgbox.scrollHeight;
-                    }
-                    socketIOClient(config.baseUrl).emit("msgToServer", {
-                        UserMail: User.data.email,
-                        SenderId: Rece.email,
-                        data: Input,
-                    });
+            dispatch(
+                NewMessage({ msg: Input, receiver: userId, photo: photoLink })
+            ).then((res) => {
+                if (!Error) {
+                    const msgbox = document.getElementById("message-box");
+                    msgbox.scrollTop = msgbox.scrollHeight;
                 }
-            );
+                socketIOClient(config.baseUrl).emit("msgToServer", {
+                    UserMail: User.data.email,
+                    SenderId: Rece.email,
+                    data: Input,
+                });
+            });
         }
     };
 
@@ -143,13 +166,45 @@ const ChatPage = ({ userId }) => {
                                                                 flexGrow: 1,
                                                             }}></span>
                                                         <div className="chat-message">
-                                                            {value.msg}
+                                                            {value.photo ? (
+                                                                <img
+                                                                    style={{
+                                                                        width:
+                                                                            "200px",
+                                                                        height:
+                                                                            "200px",
+                                                                        borderRadius:
+                                                                            "7px",
+                                                                    }}
+                                                                    src={
+                                                                        value.photo
+                                                                    }
+                                                                />
+                                                            ) : (
+                                                                value.msg
+                                                            )}
                                                         </div>
                                                     </div>
                                                 ) : (
                                                     <div className="chat-message-div">
                                                         <div className="chat-message">
-                                                            {value.msg}
+                                                            {value.photo ? (
+                                                                <img
+                                                                    style={{
+                                                                        width:
+                                                                            "200px",
+                                                                        height:
+                                                                            "200px",
+                                                                        borderRadius:
+                                                                            "7px",
+                                                                    }}
+                                                                    src={
+                                                                        value.photo
+                                                                    }
+                                                                />
+                                                            ) : (
+                                                                value.msg
+                                                            )}
                                                         </div>
                                                     </div>
                                                 )}
@@ -170,18 +225,28 @@ const ChatPage = ({ userId }) => {
                                     }}
                                     onKeyPress={(e) => {
                                         if (13 === (e.keyCode || e.which)) {
-                                            if (!Sending) sendMsg();
+                                            if (!Sending) sendMsg("");
                                         }
                                     }}
                                 />
                                 <button
-                                    className="input-send hidden md:block lg:block bg-green-700 mr-2 items-center text-center"
+                                    className="input-send bg-green-700 mr-2 items-center text-center"
                                     onClick={handleEmojis}>
                                     {String.fromCodePoint(0x1f60a)}
                                 </button>
+                                <input
+                                    className="input-send mr-2 bg-green-700 custom-file-input"
+                                    type="file"
+                                    onChange={(e) => {
+                                        setImage(e.target.files[0]);
+                                        setInput(e.target.files[0].name);
+                                        setSuccess(true);
+                                    }}
+                                />
+
                                 <button
                                     className="input-send bg-green-700 mr-2 items-center text-center"
-                                    onClick={sendMsg}
+                                    onClick={uploadPic}
                                     disabled={Sending}>
                                     {!Sending ? (
                                         <svg className="ml-3 h-6 w-6">
