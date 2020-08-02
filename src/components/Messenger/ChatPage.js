@@ -28,6 +28,7 @@ const ChatPage = ({ userId }) => {
 
     const uploadPic = () => {
         if (success) {
+            setSending(true);
             const data = new FormData();
             data.append("file", image);
             data.append("upload_preset", "insta-clone");
@@ -215,7 +216,7 @@ const ChatPage = ({ userId }) => {
                             </div>
                             <div className="input-div flex flex-row" id="end">
                                 <input
-                                    className="input-message text-black w-5/6"
+                                    className="input-message px-2 text-black w-1/2 lg:w-5/6"
                                     name="message"
                                     type="text"
                                     id="message"
@@ -231,7 +232,7 @@ const ChatPage = ({ userId }) => {
                                     }}
                                 />
                                 <button
-                                    className="input-send bg-green-700 mr-2 items-center text-center"
+                                    className="input-send hidden md:block lg:block bg-green-700 mr-2 items-center text-center"
                                     onClick={handleEmojis}>
                                     {String.fromCodePoint(0x1f60a)}
                                 </button>
@@ -240,17 +241,21 @@ const ChatPage = ({ userId }) => {
                                     type="file"
                                     onChange={(e) => {
                                         setImage(e.target.files[0]);
-                                        setInput(e.target.files[0].name);
+                                        if (
+                                            e.target.files[0].name !== undefined
+                                        ) {
+                                            setInput(e.target.files[0].name);
+                                        }
                                         setSuccess(true);
                                     }}
                                 />
 
                                 <button
-                                    className="input-send bg-green-700 mr-2 items-center text-center"
+                                    className="input-send bg-green-700 items-center text-center"
                                     onClick={uploadPic}
                                     disabled={Sending}>
                                     {!Sending ? (
-                                        <svg className="ml-3 h-6 w-6">
+                                        <svg className="m-0 m-auto h-6 w-6">
                                             <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
                                         </svg>
                                     ) : (
