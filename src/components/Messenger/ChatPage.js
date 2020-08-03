@@ -39,6 +39,7 @@ const ChatPage = ({ userId }) => {
             })
                 .then((res) => res.json())
                 .then((data) => {
+                    setSuccess(false);
                     sendMsg(data.url);
                 })
                 .catch((err) => {
@@ -246,8 +247,8 @@ const ChatPage = ({ userId }) => {
                                             e.target.files[0].name !== undefined
                                         ) {
                                             setInput(e.target.files[0].name);
+                                            setSuccess(true);
                                         }
-                                        setSuccess(true);
                                     }}
                                 />
 
