@@ -188,7 +188,7 @@ const ChatPage = ({ userId }) => {
                                                     </div>
                                                 ) : (
                                                     <div className="chat-message-div">
-                                                        <div className="chat-message">
+                                                        <div className="bg-green-200 chat-message">
                                                             {value.photo ? (
                                                                 <img
                                                                     style={{
@@ -199,6 +199,7 @@ const ChatPage = ({ userId }) => {
                                                                         borderRadius:
                                                                             "7px",
                                                                     }}
+                                                                    className="bg-green-200"
                                                                     src={
                                                                         value.photo
                                                                     }
