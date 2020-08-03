@@ -115,13 +115,27 @@ const ChatPage = ({ userId }) => {
         return !str || str.length === 0 || /^\s*$/.test(str);
     };
 
-    const downloadImage = (link) => {
-        const element = document.createElement("a");
-        const file = new Blob([link], { type: "image/*" });
-        element.href = URL.createObjectURL(file);
-        const FileName = "Image_(" + new Date().toLocaleTimeString() + ").png";
-        element.download = FileName;
-        element.click();
+    const downloadImage = (e) => {
+        fetch(e, {
+            method: "GET",
+            headers: {},
+        })
+            .then((response) => {
+                response.arrayBuffer().then(function (buffer) {
+                    const url = window.URL.createObjectURL(new Blob([buffer]));
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.setAttribute(
+                        "download",
+                        "Image_(" + new Date().toLocaleTimeString() + ").png"
+                    );
+                    document.body.appendChild(link);
+                    link.click();
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     const sendMsg = (photoLink) => {
@@ -247,7 +261,7 @@ const ChatPage = ({ userId }) => {
                                                                                 e
                                                                             ) =>
                                                                                 downloadImage(
-                                                                                    e
+                                                                                    value.photo
                                                                                 )
                                                                             }
                                                                             className="rounded-full p-2 text-sm mt-1 bg-green-700 text-white">
