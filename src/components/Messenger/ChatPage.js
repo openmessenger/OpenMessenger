@@ -115,6 +115,15 @@ const ChatPage = ({ userId }) => {
         return !str || str.length === 0 || /^\s*$/.test(str);
     };
 
+    const downloadImage = (link) => {
+        const element = document.createElement("a");
+        const file = new Blob([link], { type: "image/*" });
+        element.href = URL.createObjectURL(file);
+        const FileName = "Image_(" + new Date().toLocaleTimeString() + ").png";
+        element.download = FileName;
+        element.click();
+    };
+
     const sendMsg = (photoLink) => {
         if (!isNullOrWhiteSpace(Input)) {
             setInput("");
@@ -168,20 +177,45 @@ const ChatPage = ({ userId }) => {
                                                             }}></span>
                                                         <div className="chat-message">
                                                             {value.photo ? (
-                                                                <img
-                                                                    style={{
-                                                                        width:
-                                                                            "200px",
-                                                                        height:
-                                                                            "200px",
-                                                                        borderRadius:
-                                                                            "7px",
-                                                                    }}
-                                                                    src={
-                                                                        value.photo
-                                                                    }
-                                                                    alt=""
-                                                                />
+                                                                <>
+                                                                    <img
+                                                                        style={{
+                                                                            width:
+                                                                                "200px",
+                                                                            height:
+                                                                                "200px",
+                                                                            borderRadius:
+                                                                                "7px",
+                                                                        }}
+                                                                        src={
+                                                                            value.photo
+                                                                        }
+                                                                        alt=""
+                                                                    />
+                                                                    <div className="w-full text-left">
+                                                                        <button
+                                                                            onClick={(
+                                                                                e
+                                                                            ) =>
+                                                                                downloadImage(
+                                                                                    value.photo
+                                                                                )
+                                                                            }
+                                                                            className="rounded-full p-2 text-sm mt-1 bg-green-700 text-white">
+                                                                            <svg
+                                                                                width="1em"
+                                                                                height="1em"
+                                                                                viewBox="0 0 16 16"
+                                                                                className="bi bi-download"
+                                                                                fill="currentColor"
+                                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8z" />
+                                                                                <path d="M5 7.5a.5.5 0 0 1 .707 0L8 9.793 10.293 7.5a.5.5 0 1 1 .707.707l-2.646 2.647a.5.5 0 0 1-.708 0L5 8.207A.5.5 0 0 1 5 7.5z" />
+                                                                                <path d="M8 1a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 1z" />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </div>
+                                                                </>
                                                             ) : (
                                                                 value.msg
                                                             )}
@@ -191,21 +225,46 @@ const ChatPage = ({ userId }) => {
                                                     <div className="chat-message-div">
                                                         <div className="bg-green-200 chat-message">
                                                             {value.photo ? (
-                                                                <img
-                                                                    style={{
-                                                                        width:
-                                                                            "200px",
-                                                                        height:
-                                                                            "200px",
-                                                                        borderRadius:
-                                                                            "7px",
-                                                                    }}
-                                                                    className="bg-green-200"
-                                                                    src={
-                                                                        value.photo
-                                                                    }
-                                                                    alt=""
-                                                                />
+                                                                <>
+                                                                    <img
+                                                                        style={{
+                                                                            width:
+                                                                                "200px",
+                                                                            height:
+                                                                                "200px",
+                                                                            borderRadius:
+                                                                                "7px",
+                                                                        }}
+                                                                        className="bg-green-200"
+                                                                        src={
+                                                                            value.photo
+                                                                        }
+                                                                        alt=""
+                                                                    />
+                                                                    <div className="w-full text-right">
+                                                                        <button
+                                                                            onClick={(
+                                                                                e
+                                                                            ) =>
+                                                                                downloadImage(
+                                                                                    e
+                                                                                )
+                                                                            }
+                                                                            className="rounded-full p-2 text-sm mt-1 bg-green-700 text-white">
+                                                                            <svg
+                                                                                width="1em"
+                                                                                height="1em"
+                                                                                viewBox="0 0 16 16"
+                                                                                className="bi bi-download"
+                                                                                fill="currentColor"
+                                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8z" />
+                                                                                <path d="M5 7.5a.5.5 0 0 1 .707 0L8 9.793 10.293 7.5a.5.5 0 1 1 .707.707l-2.646 2.647a.5.5 0 0 1-.708 0L5 8.207A.5.5 0 0 1 5 7.5z" />
+                                                                                <path d="M8 1a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 1z" />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </div>
+                                                                </>
                                                             ) : (
                                                                 value.msg
                                                             )}
