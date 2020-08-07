@@ -122,7 +122,7 @@ const Homepage = () => {
                                 <>
                                     {keyword.length > 0 && (
                                         <div className="w-full text-lg font-sans font-semibold text-center mt-3 text-red-600">
-                                            No Results for {keyword} :-(
+                                            No Results for {keyword} 😩
                                         </div>
                                     )}
                                 </>
