@@ -13,6 +13,10 @@ export default {
         path: "/api/v1/messages/new",
         method: "POST",
     },
+    blockuser: {
+        path: "/api/v1/account/block",
+        method: "POST",
+    },
     allchats: {
         path: "/api/v1/messages/allchats",
         method: "get",
