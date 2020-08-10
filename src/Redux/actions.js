@@ -19,3 +19,6 @@ export const getmsgs = (body) => {
 export const SearchUser = (body) => {
     return fireRequest("SearchUser", [], body);
 };
+export const blockuser = (body) => {
+    return fireRequest("blockuser", [], body);
+};
