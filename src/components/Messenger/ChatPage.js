@@ -25,7 +25,6 @@ const ChatPage = ({ userId }) => {
     const [Loading, setLoading] = useState(false);
     const [Sending, setSending] = useState(false);
     const [showEmojis, setShowEmojis] = useState(false);
-    const [Status, setStatus] = useState("BLOCKED");
     const [Blockedme, setBlockedme] = useState(false);
     const [BlockedByMe, setBlockedByMe] = useState(false);
     const uploadPic = () => {
@@ -143,10 +142,8 @@ const ChatPage = ({ userId }) => {
     };
 
     const blockUser = () => {
-        console.log(Blockedme);
         dispatch(blockuser({ chat_to: userId })).then((res) => {
             if (res && res.data) {
-                setStatus(res.data.Status);
                 socketIOClient(config.baseUrl).emit("msgToServer", {
                     UserMail: User.data.email,
                     SenderId: Rece.email,
