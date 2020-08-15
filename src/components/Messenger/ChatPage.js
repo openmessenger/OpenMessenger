@@ -119,7 +119,7 @@ const ChatPage = ({ userId }) => {
     };
 
     const downloadImage = (e) => {
-//         e = e.replace("http", "https");
+        //         e = e.replace("http", "https");
         fetch(e, {
             method: "GET",
             headers: {},
@@ -159,7 +159,11 @@ const ChatPage = ({ userId }) => {
             setInput("");
             setSending(true);
             dispatch(
-                NewMessage({ msg: Input, receiver: userId, photo:photoLink.replace("http", "https"), })
+                NewMessage({
+                    msg: Input,
+                    receiver: userId,
+                    photo: photoLink.replace("http", "https"),
+                })
             ).then((res) => {
                 if (!Error) {
                     const msgbox = document.getElementById("message-box");
