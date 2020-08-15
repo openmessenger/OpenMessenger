@@ -234,10 +234,9 @@ const ChatPage = ({ userId }) => {
                                                                             borderRadius:
                                                                                 "7px",
                                                                         }}
-                                                                        src={value.photo.replace(
-                                                                            "http",
-                                                                            "https"
-                                                                        )}
+                                                                        src={
+                                                                            value.photo
+                                                                        }
                                                                         alt=""
                                                                     />
                                                                     <div className="w-full text-left">
