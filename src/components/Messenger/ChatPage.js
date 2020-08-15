@@ -119,6 +119,7 @@ const ChatPage = ({ userId }) => {
     };
 
     const downloadImage = (e) => {
+        e = e.replace("http", "https");
         fetch(e, {
             method: "GET",
             headers: {},
