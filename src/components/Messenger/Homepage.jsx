@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { A } from "hookrouter";
 import { SearchUser, allchats } from "../../Redux/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../common/Loader";
+import socketIOClient from "socket.io-client";
+const config = {
+    baseUrl: process.env.REACT_APP_BASE_URL,
+};
 
 const Homepage = () => {
     const [Data, setData] = useState([]);
@@ -11,17 +15,29 @@ const Homepage = () => {
     const dispatch = useDispatch();
     const [render, setrender] = useState(Math.random());
     const [Loading, setLoading] = useState(false);
+    const state = useSelector((reduxState) => reduxState);
+    const { currentUser } = state;
+    const User = currentUser.data;
 
     useEffect(() => {
         setLoading(true);
-        dispatch(allchats()).then((res) => {
-            if (res && res.data !== undefined) {
-                const resp = res.data.result;
-                setData(resp);
-                setLoading(false);
+        const Socket = socketIOClient(config.baseUrl);
+        const starter = () => {
+            dispatch(allchats()).then((res) => {
+                if (res && res.data !== undefined) {
+                    const resp = res.data.result;
+                    setData(resp);
+                    setLoading(false);
+                }
+            });
+        };
+        starter();
+        Socket.on("msgToClient", (message) => {
+            if (message.SenderId === User.data.email) {
+                starter();
             }
         });
-    }, [render, dispatch]);
+    }, [render, dispatch, User.data.email]);
 
     const isNullOrWhiteSpace = (str) => {
         return !str || str.length === 0 || /^\s*$/.test(str);
@@ -122,7 +138,7 @@ const Homepage = () => {
                                 <>
                                     {keyword.length > 0 && (
                                         <div className="w-full text-lg font-sans font-semibold text-center mt-3 text-red-600">
-                                            No Results for {keyword} :-(
+                                            No Results for {keyword} 😩
                                         </div>
                                     )}
                                 </>
