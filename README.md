@@ -29,4 +29,4 @@ Your app is ready to be deployed!
 
 ### `npm run pretty`
 
-To format the code
+To format the code (using prettier).
