@@ -1,3 +1,7 @@
 .ui-pnotify-container {
     width: 200px !important;
 }
+.pnotify-material-success {
+    background-color: goldenrod !important;
+    font-weight: 600;
+}

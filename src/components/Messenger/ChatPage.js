@@ -9,7 +9,8 @@ import { Picker } from "emoji-mart";
 const config = {
     baseUrl: process.env.REACT_APP_BASE_URL,
 };
-const Load = require("./Loader.gif");
+const Load = require("./assets/Loader.gif");
+const NotficationSound = require("./assets/newmsg2.mp3");
 
 const ChatPage = ({ userId }) => {
     const state = useSelector((reduxState) => reduxState);
@@ -67,7 +68,8 @@ const ChatPage = ({ userId }) => {
         setLoading(true);
         let Err = false;
         let Res = [];
-        const starter = () => {
+        const audioEl = document.getElementsByClassName("audioelement")[0];
+        const starter = (SoundStatus) => {
             dispatch(getmsgs({ receiver: userId }))
                 .then((res) => {
                     if (Mount && res && res.data !== undefined) {
@@ -92,11 +94,14 @@ const ChatPage = ({ userId }) => {
                 .then(() => {
                     if (Mount && !Err) {
                         const msgbox = document.getElementById("message-box");
+                        if (SoundStatus) {
+                            audioEl.play();
+                        }
                         msgbox.scrollTop = msgbox.scrollHeight;
                     }
                 });
         };
-        starter();
+        starter(false);
 
         Socket.on("msgToClient", (message) => {
             if (
@@ -105,7 +110,10 @@ const ChatPage = ({ userId }) => {
                 (message.UserMail === Res.email &&
                     message.SenderId === User.data.email)
             ) {
-                starter();
+                starter(
+                    message.UserMail === Res.email &&
+                        message.SenderId === User.data.email
+                );
             }
         });
         return () => {
@@ -179,6 +187,9 @@ const ChatPage = ({ userId }) => {
 
     return (
         <div className="items-center px-3">
+            <audio className="hidden audioelement">
+                <source src={NotficationSound}></source>
+            </audio>
             {!Error ? (
                 <>
                     {Loading && <Loader msg={"Loading chat..."} />}

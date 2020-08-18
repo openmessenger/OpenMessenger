@@ -4,6 +4,7 @@ import { SearchUser, allchats } from "../../Redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../common/Loader";
 import socketIOClient from "socket.io-client";
+import * as Notify from "../../util/Notifications";
 const config = {
     baseUrl: process.env.REACT_APP_BASE_URL,
 };
@@ -18,25 +19,36 @@ const Homepage = () => {
     const state = useSelector((reduxState) => reduxState);
     const { currentUser } = state;
     const User = currentUser.data;
+    const NotficationSound = require("./assets/newmsg.mp3");
 
     useEffect(() => {
         setLoading(true);
+        let Mount = true;
+        const audioEl = document.getElementsByClassName("audioelement")[0];
         const Socket = socketIOClient(config.baseUrl);
-        const starter = () => {
+        const starter = (Play) => {
             dispatch(allchats()).then((res) => {
-                if (res && res.data !== undefined) {
+                if (res && res.data !== undefined && Mount) {
                     const resp = res.data.result;
                     setData(resp);
+                    if (Play) {
+                        audioEl.play();
+                        Notify.Success({ msg: "New Message" });
+                    }
                     setLoading(false);
                 }
             });
         };
-        starter();
+        starter(false);
         Socket.on("msgToClient", (message) => {
-            if (message.SenderId === User.data.email) {
-                starter();
+            if (message.SenderId === User.data.email && Mount) {
+                starter(true);
             }
         });
+        return () => {
+            Mount = false;
+            Socket.close();
+        };
     }, [render, dispatch, User.data.email]);
 
     const isNullOrWhiteSpace = (str) => {
@@ -58,6 +70,9 @@ const Homepage = () => {
 
     return (
         <div className="m-0 m-auto">
+            <audio className="hidden audioelement">
+                <source src={NotficationSound}></source>
+            </audio>
             {Loading && <Loader msg={"Loading chats...."} />}
             {!Loading && (
                 <>
