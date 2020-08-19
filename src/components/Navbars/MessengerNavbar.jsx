@@ -17,7 +17,7 @@ const MessengerNavbar = () => {
         <nav className="flex flex-row justify-between flex-wrap bg-green-700">
             <div className="w-1/2">
                 <div className="w-full  md:w-1/3 lg:w-1/3">
-                    <A href="/">
+                    <A href="/chat">
                         <div className="text-white flex items-center mr-6 py-6 pl-6">
                             <img
                                 alt="applogo"
