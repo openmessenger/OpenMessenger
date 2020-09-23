@@ -210,15 +210,21 @@ const ChatPage = ({ userId }) => {
                                     {BlockedByMe ? (
                                         <button
                                             onClick={blockUser}
-                                            style={{ width: "100px" }}
-                                            className="bg-blue-700 text-white rounded px-2 py-1">
+                                            style={{
+                                                width: "100px",
+                                                outline: "none",
+                                            }}
+                                            className="bg-blue-700 outline-none text-white rounded px-2 py-1">
                                             Unblock
                                         </button>
                                     ) : (
                                         <button
                                             onClick={blockUser}
-                                            style={{ width: "100px" }}
-                                            className="bg-red-700 text-white rounded px-2 py-1">
+                                            style={{
+                                                width: "100px",
+                                                outline: "none",
+                                            }}
+                                            className=" outline-none bg-red-700 text-white rounded px-2 py-1">
                                             Block
                                         </button>
                                     )}
@@ -262,6 +268,12 @@ const ChatPage = ({ userId }) => {
                                                                                     value.photo
                                                                                 )
                                                                             }
+                                                                            style={{
+                                                                                width:
+                                                                                    "100px",
+                                                                                outline:
+                                                                                    "none",
+                                                                            }}
                                                                             className="rounded-full p-2 text-sm mt-1 bg-green-700 text-white">
                                                                             <svg
                                                                                 width="1em"
@@ -311,6 +323,12 @@ const ChatPage = ({ userId }) => {
                                                                                     value.photo
                                                                                 )
                                                                             }
+                                                                            style={{
+                                                                                width:
+                                                                                    "100px",
+                                                                                outline:
+                                                                                    "none",
+                                                                            }}
                                                                             className="rounded-full p-2 text-sm mt-1 bg-green-700 text-white">
                                                                             <svg
                                                                                 width="1em"
@@ -364,7 +382,7 @@ const ChatPage = ({ userId }) => {
                                     />
                                 )}
                                 <button
-                                    className="input-send hidden md:block lg:block bg-green-700 mr-2 items-center text-center"
+                                    className="input-send outline-none hidden md:block lg:block bg-green-700 mr-2 items-center text-center"
                                     onClick={handleEmojis}>
                                     {String.fromCodePoint(0x1f60a)}
                                 </button>
@@ -386,7 +404,7 @@ const ChatPage = ({ userId }) => {
                                 />
 
                                 <button
-                                    className="input-send bg-green-700 items-center text-center"
+                                    className="input-send outline-none bg-green-700 items-center text-center"
                                     onClick={() => {
                                         if (!Blockedme) uploadPic();
                                     }}

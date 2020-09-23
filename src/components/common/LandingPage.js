@@ -50,6 +50,7 @@ const LandingPage = () => {
                 onSuccess={responseGoogle}
                 onFailure={fresponseGoogle}
                 cookiePolicy={"single_host_origin"}
+                className="outline-none"
             />
         </div>
     );

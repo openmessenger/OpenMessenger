@@ -9,7 +9,7 @@ const Footer = () => {
                         href="http://github.com/openmessenger"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-black text-center font-bold text-sm sm:mb-2 hover:text-green-700 ">
+                        className="text-black outline-none text-center font-bold text-sm sm:mb-2 hover:text-green-700 ">
                         Contribute on Github{" "}
                         <i className="fa fa-github text-xl"></i>
                     </a>

@@ -102,7 +102,7 @@ const Homepage = () => {
                                 <button
                                     type="submit"
                                     onClick={Searcher}
-                                    className="bg-green-800 text-white m-0 m-auto py-3 px-3   rounded-full rounded-full px-2 py-2">
+                                    className="bg-green-800 outline-none text-white m-0 m-auto py-3 px-3   rounded-full rounded-full px-2 py-2">
                                     <svg
                                         className="h-4 w-4 fill-current"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +132,7 @@ const Homepage = () => {
                                             <A
                                                 href={`chat/${value.id}`}
                                                 key={id + 1}>
-                                                <div className="lg:w-1/3 w-3/4 flex m-0 m-auto p-2 lg:p-3 md:p-3 font-semibold  px-2 my-2 shadow-lg  bg-green-700 rounded">
+                                                <div className="lg:w-1/3 outline-none w-3/4 flex m-0 m-auto p-2 lg:p-3 md:p-3 font-semibold  px-2 my-2 shadow-lg  bg-green-700 rounded">
                                                     <div className="w-1/3">
                                                         <img
                                                             className="h-16  w-16 rounded-full "
