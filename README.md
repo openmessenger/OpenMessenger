@@ -1,6 +1,6 @@
 # Open Messenger
 
-Please feel free to contribute
+Please feel free to contribute . Backend code availalble at Openmessenger_be repo . 
 
 ![logo](https://github.com/openmessenger/OpenMessenger/blob/master/public/logo.png)
 
