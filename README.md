@@ -1,5 +1,7 @@
 # Open Messenger
 
+Please feel free to contribute
+
 ![logo](https://github.com/openmessenger/OpenMessenger/blob/master/public/logo.png)
 
 ## Available Scripts
